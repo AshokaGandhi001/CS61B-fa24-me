@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListExercises {
@@ -5,13 +6,23 @@ public class ListExercises {
     /** Returns the total sum in a list of integers */
 	public static int sum(List<Integer> L) {
         // TODO: Fill in this function.
-        return 0;
+        int total_sum = 0;
+        for (int number : L){
+            total_sum += number;
+        }
+        return total_sum;
     }
 
     /** Returns a list containing the even numbers of the given list */
     public static List<Integer> evens(List<Integer> L) {
         // TODO: Fill in this function.
-        return null;
+        List<Integer> even_numbers = new ArrayList<>();
+        for (int number : L){
+            if (number % 2 == 0){
+                even_numbers.add(number);
+            }
+        }
+        return even_numbers;
     }
 
     /** Returns a list containing the common item of the two given lists */
