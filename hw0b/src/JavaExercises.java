@@ -1,3 +1,5 @@
+import org.checkerframework.common.value.qual.EnsuresMinLenIf;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +35,15 @@ public class JavaExercises {
      *  Assumes array is nonempty. */
     public static int findMinMax(int[] array) {
         // TODO: Fill in this function.
-        return 0;
+        int max = array[0];
+        int min = array[0];
+        for (int i  :array){
+            if (i > max){
+                max = i;
+            }
+            if (i < min) min = i;
+        }
+        return max - min;
     }
 
     /**
@@ -50,7 +60,15 @@ public class JavaExercises {
 
     private static List<Integer> hailstoneHelper(int x, List<Integer> list) {
         // TODO: Fill in this function.
-        return null;
+        list.add(x);
+        if (x == 1){
+            return list;
+          } else if (x % 2 == 0) {
+            hailstoneHelper(x / 2, list);
+        } else {
+            hailstoneHelper(3*x +1, list);
+        }
+        return list;
     }
 
 }
