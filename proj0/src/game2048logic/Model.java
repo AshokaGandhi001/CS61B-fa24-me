@@ -115,6 +115,10 @@ public class Model {
         return false;
     }
 
+    public boolean notNull(Tile tile){
+        return tile != null;
+    }
+
     /**
      * Returns true if there are any valid moves on the board.
      * There are two ways that there can be valid moves:
@@ -123,6 +127,24 @@ public class Model {
      */
     public boolean atLeastOneMoveExists() {
         // TODO: Task 3. Fill in this function.
+
+        if (emptySpaceExists()) return true;
+        else {
+            for (int i = 0; i < board.size(); i ++){
+                for (int j = 0; j < board.size(); j ++){
+                    if (notNull(tile(i, j))){
+                        int value = tile(i, j).value();
+                        if (i + 1 < board.size() && tile(i +1, j).value() == value){
+                            return true;
+                        }
+                        if (j + 1 < board.size() && tile(i, j+1).value() == value){
+                            return true;
+                        }
+
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -143,9 +165,11 @@ public class Model {
     public void moveTileUpAsFarAsPossible(int x, int y) {
         Tile currTile = board.tile(x, y);
         int myValue = currTile.value();
-        int targetY = y;
+        int targetY = y;//going up is assending y
+
 
         // TODO: Tasks 5, 6, and 10. Fill in this function.
+
     }
 
     /** Handles the movements of the tilt in column x of board B
