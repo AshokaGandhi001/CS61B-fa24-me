@@ -176,8 +176,9 @@ public class Model {
             if (tile(x, targetY+1) == null){
                 targetY += 1;
             }else if(tile(x, targetY+1).value() == myValue  && !currTile.wasMerged() && !(tile(x, targetY+1).wasMerged())){
-
+                //The merging case
                 targetY += 1;
+                this.score += 2* myValue;
                 break;
             }
             else{
@@ -209,9 +210,11 @@ public class Model {
 
     public void tilt(Side side) {
         // TODO: Tasks 8 and 9. Fill in this function.
+        board.setViewingPerspective(side);
         for (int x = 0; x < board.size(); x ++){
             tiltColumn(x);
         }
+        board.setViewingPerspective(Side.NORTH);
     }
 
     /** Tilts every column of the board toward SIDE.
