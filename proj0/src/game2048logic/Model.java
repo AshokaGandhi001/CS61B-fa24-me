@@ -172,16 +172,18 @@ public class Model {
         //try to move up one tile, just look, and when can move no further, excicute.
 
         while (targetY < board.size() -1){
-            if (tile(x, targetY+1) == null || tile(x, targetY+1).value() == myValue ){
+            if (tile(x, targetY+1) == null){
                 targetY += 1;
+            }else if(tile(x, targetY+1).value() == myValue  && !currTile.wasMerged() && !(tile(x, targetY+1).wasMerged())){
+
+                targetY += 1;
+                break;
             }
             else{
                 break;
             }
         }
         board.move(x, targetY, currTile);
-
-        
     }
 
     /** Handles the movements of the tilt in column x of board B
