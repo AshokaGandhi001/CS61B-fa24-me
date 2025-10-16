@@ -202,6 +202,7 @@ public class Model {
                 moveTileUpAsFarAsPossible(x, y);
             }else {
                 continue;
+                
             }
         }
     }
