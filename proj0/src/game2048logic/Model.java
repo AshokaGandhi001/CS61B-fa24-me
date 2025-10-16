@@ -166,10 +166,22 @@ public class Model {
         Tile currTile = board.tile(x, y);
         int myValue = currTile.value();
         int targetY = y;//going up is assending y
-
-
         // TODO: Tasks 5, 6, and 10. Fill in this function.
+        /* Task 5, which do not include merging, just move.*/
+        //target y, probably it is where the tile is to go.So increase target y untill we cant
+        //try to move up one tile, just look, and when can move no further, excicute.
 
+        while (targetY < board.size() -1){
+            if (tile(x, targetY+1) == null || tile(x, targetY+1).value() == myValue ){
+                targetY += 1;
+            }
+            else{
+                break;
+            }
+        }
+        board.move(x, targetY, currTile);
+
+        
     }
 
     /** Handles the movements of the tilt in column x of board B
