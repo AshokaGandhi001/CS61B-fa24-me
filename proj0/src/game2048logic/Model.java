@@ -163,6 +163,7 @@ public class Model {
      *    and the trailing tile does not.
      */
     public void moveTileUpAsFarAsPossible(int x, int y) {
+        /* move tile at position (x, y). */
         Tile currTile = board.tile(x, y);
         int myValue = currTile.value();
         int targetY = y;//going up is assending y
@@ -193,6 +194,16 @@ public class Model {
      * */
     public void tiltColumn(int x) {
         // TODO: Task 7. Fill in this function.
+        /* In a given column, move every tile that is not null.
+        in a order: tiles have larger y index will tilt first. */
+
+        for (int y = board.size()-1; y >= 0; y --){
+            if (tile(x, y) != null){
+                moveTileUpAsFarAsPossible(x, y);
+            }else {
+                continue;
+            }
+        }
     }
 
     public void tilt(Side side) {
