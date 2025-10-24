@@ -1,16 +1,67 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class ArrayDeque61B<T> implements Deque61B {
+public class ArrayDeque61B<T> implements Deque61B<T> {
     T[] item;
     int nextFirst;
     int nextLast;
     int size;
 
+    @Override
+    public boolean equals(Object stuff) {
+        if (stuff instanceof ArrayDeque61B tmp) {
+            ArrayDeque61B<T> otherdeque = (ArrayDeque61B<T>) tmp;
+            if (!(otherdeque.size() == this.size())) {
+                return false;
+            }
+            for (T x:this) {
+                if (!otherdeque.contains(x)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    @Override
+    public String toString() {
+        return  this.toList().toString();
+    }
+
+    public boolean contains(T x) {
+        for (int i = 0; i < size(); i++) {
+            if (x.equals(get(i)) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayDequeIterator();
+    }
+
+    private class ArrayDequeIterator implements Iterator<T> {
+        private int position;
+        public ArrayDequeIterator(){
+            position = 0;
+        }
+        public boolean hasNext() {
+            return position < size;
+        }
+
+        public T next() {
+            T returnItem = (T) get(position);
+            position++;
+            return returnItem;
+        }
+    }
+
     public ArrayDeque61B() {
         item = (T[]) new Object[8];
         size = 0;
-        nextFirst = 2;
+        nextFirst = 0;
         nextLast = nextFirst + 1;
     }
     public T[] resizingup(T[] item) {
@@ -22,6 +73,16 @@ public class ArrayDeque61B<T> implements Deque61B {
         nextLast = size();
         return newItem;
     }
+
+    public T[] resizingdown(T[] item) {
+        T[] newItem = (T[]) new Object[item.length / 2];
+        for (int i = 0; i < size(); i++){
+            newItem[i] = (T) get(i);
+        }
+        nextFirst = newItem.length - 1;
+        return newItem;
+    }
+
     @Override
     public void addFirst(Object x) {
         if (size() == item.length) {
@@ -90,7 +151,11 @@ public class ArrayDeque61B<T> implements Deque61B {
     }
 
     @Override
-    public Object removeFirst() {
+    public T removeFirst() {
+        //before removing, when item > 16 and when usage factor is < 25%, resize array dowm.
+        if ( ((double) size() / item.length) < 0.25 && item.length > 16) {
+            item = resizingdown(item);
+        }
         T item = (T) get(0);
         size--;
         nextFirst = getNextRight(nextFirst);//nextFirst now points to the romoved space.
@@ -100,7 +165,10 @@ public class ArrayDeque61B<T> implements Deque61B {
     }
 
     @Override
-    public Object removeLast() {
+    public T removeLast() {
+        if ( ((double) size() / item.length) < 0.25 && item.length > 16) {
+            item = resizingdown(item);
+        }
         T item = (T) get(size() - 1);
         size--;
         nextLast = getNextleft(nextLast);
@@ -110,7 +178,7 @@ public class ArrayDeque61B<T> implements Deque61B {
     }
 
     @Override
-    public Object get(int index) {
+    public T get(int index) {
         if (index < 0 || index >= item.length){
             return null;
         }
@@ -118,7 +186,7 @@ public class ArrayDeque61B<T> implements Deque61B {
     }
 
     @Override
-    public Object getRecursive(int index) {
+    public T getRecursive(int index) {
         throw new UnsupportedOperationException("No need to implement getRecursive for proj 1b");
     }
 }
