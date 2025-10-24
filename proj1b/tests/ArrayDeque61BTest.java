@@ -124,5 +124,25 @@ public class ArrayDeque61BTest {
         assertThat(test2.removeLast()).isEqualTo(1);
         assertThat(test2.toList()).containsExactly(7, 6, 5, 4, 3, 2);
 
+        Deque61B<Integer> test3 = new ArrayDeque61B<>();
+        for (int i = 1; i <= 33; i++){
+            test3.addLast(i);
+        }
+
+        for (int i = 0; i < 19; i++) {
+            test3.removeFirst();
+        }
+        assertThat(test3.get(0)).isEqualTo(20);
     }
+    @Test
+    public void addLastTestBasicWithoutToList() {
+        Deque61B<String> lld1 = new ArrayDeque61B<>();
+
+        lld1.addLast("front"); // after this call we expect: ["front"]
+        lld1.addLast("middle"); // after this call we expect: ["front", "middle"]
+        lld1.addLast("back"); // after this call we expect: ["front", "middle", "back"]
+
+        assertThat(lld1).containsExactly("front", "middle", "back");
+    }
+
 }
