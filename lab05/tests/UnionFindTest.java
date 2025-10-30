@@ -53,6 +53,7 @@ public class UnionFindTest {
         assertThat(uf.find(2)).isEqualTo(3);
         uf.union(0, 2);
         assertThat(uf.find(1)).isEqualTo(3);
+        assertThat(uf.find(0)).isEqualTo(3);
 
         uf.union(4, 5);
         uf.union(6, 7);
@@ -85,7 +86,13 @@ public class UnionFindTest {
      * Specifically, you may want to write a test for path compression and to check for the correctness
      * of all methods in your implementation.
      */
-
+    @Test
+    public void initialTest() {
+        UnionFind uf =  new UnionFind(5);
+        for (int i = 0; i < 5; i ++) {
+            assertThat(uf.find(i)).isEqualTo(i);
+        }
+    }
 }
 
 
