@@ -14,11 +14,13 @@ public class UnionFind {
     public int sizeOf(int v) {
         // TODO: YOUR CODE HERE
         //store the size of set in the value of root.
-        int parentIndex = parent[v];
-        while (parentIndex >= 0) {
-            parentIndex = parent[parentIndex];
-        }
-        return parentIndex;
+//        int parentIndex = parent[v];
+//        while (parentIndex >= 0) {
+//            parentIndex = parent[parentIndex];
+//        }
+//        return parentIndex;
+        int rootv = find(v);
+        return -parent[rootv];
     }
 
     /* Returns the parent of V. If V is the root of a tree, returns the
@@ -31,15 +33,41 @@ public class UnionFind {
     /* Returns true if nodes/vertices V1 and V2 are connected. */
     public boolean connected(int v1, int v2) {
         // TODO: YOUR CODE HERE
-        return false;
+        return find(v1) == find(v2);
     }
 
     /* Returns the root of the set V belongs to. Path-compression is employed
        allowing for fast search-time. If invalid items are passed into this
        function, throw an IllegalArgumentException. */
     public int find(int v) {
+        if (v >= parent.length || v < 0) {
+            throw new IllegalArgumentException("Some comment to describe the reason for throwing.");
+        }
+        int vParent = parent(v);
+        if (vParent < 0) {
+            return v;
+        }
+//        int newvparent = parent(vParent);
+//        while (newvparent >= 0) {
+//             vParent = newvparent;
+//             newvparent = parent(newvparent);
+//        }
+//        //here, we can say that vparent is now the root of v;
+//        //now in path-compression, we need to do the work again.
+//        int rootv = vParent;
+//        vParent = parent(v);
+//        while (vParent != rootv) {
+//            int nowNode = vParent;
+//            vParent = parent(vParent);
+//            parent[nowNode] = rootv;
+//        }
+//        return rootv;
+        if (parent[v] < 0) {
+            return v;
+        }
 
-        return -1;
+        parent[v] = find(parent[v]); // path compression
+        return parent[v];
     }
 
     /* Connects two items V1 and V2 together by connecting their respective
@@ -49,6 +77,20 @@ public class UnionFind {
        already connected should not change the structure. */
     public void union(int v1, int v2) {
         // TODO: YOUR CODE HERE
+        if (connected(v1, v2)) {
+            return;
+        }
+        int size1 = sizeOf(v1);
+        int size2 = sizeOf(v2);
+        int root1 = find(v1);
+        int root2 = find(v2);
+        if (size1 > size2) {
+            parent[root2] = root1;
+            parent[root1] -= size2;
+        } else {
+            parent[root1] = root2;
+            parent[root2] -= size1;
+        }
     }
 
 }
