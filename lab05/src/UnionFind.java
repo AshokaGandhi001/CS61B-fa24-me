@@ -1,15 +1,19 @@
 public class UnionFind {
     // TODO: Instance variables
-
+    int[] parent;
     /* Creates a UnionFind data structure holding N items. Initially, all
        items are in disjoint sets. */
     public UnionFind(int N) {
-        // TODO: YOUR CODE HERE
+        parent = new int[N];
+        for (int i = 0 ; i < N ; i++) {
+            parent[i] = -1;
+        }
     }
 
     /* Returns the size of the set V belongs to. */
     public int sizeOf(int v) {
         // TODO: YOUR CODE HERE
+        //store the size of set in the value of root.
         return -1;
     }
 
@@ -17,7 +21,7 @@ public class UnionFind {
        negative size of the tree for which V is the root. */
     public int parent(int v) {
         // TODO: YOUR CODE HERE
-        return -1;
+        return parent[v];
     }
 
     /* Returns true if nodes/vertices V1 and V2 are connected. */
@@ -30,7 +34,7 @@ public class UnionFind {
        allowing for fast search-time. If invalid items are passed into this
        function, throw an IllegalArgumentException. */
     public int find(int v) {
-        // TODO: YOUR CODE HERE
+
         return -1;
     }
 
