@@ -14,7 +14,11 @@ public class UnionFind {
     public int sizeOf(int v) {
         // TODO: YOUR CODE HERE
         //store the size of set in the value of root.
-        return -1;
+        int parentIndex = parent[v];
+        while (parentIndex >= 0) {
+            parentIndex = parent[parentIndex];
+        }
+        return parentIndex;
     }
 
     /* Returns the parent of V. If V is the root of a tree, returns the
