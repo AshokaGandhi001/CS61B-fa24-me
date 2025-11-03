@@ -29,16 +29,25 @@ public class Percolation {
         if (!isValid(row, col)) {
             throw new IllegalArgumentException("row or col index out of bounds");
         }
+        if (isOpen(row, col)) {
+            return;
+        }
 
         int siteIndex = xyTo1D(row, col);
         universe[row][col] = true;
         numberOfOpenSite++;
 
         if (row == 0) unionUF.union(siteIndex, top);
-        if (row == boardSize) unionUF.union(siteIndex, bottom);
+        if (row == boardSize -1) unionUF.union(siteIndex, bottom);
 
         int[][] dir = {{1, 0}, {-1,0}, {0, 1}, {0, -1}};
-
+        for (int[] d : dir) {
+            int newrow = row + d[0];
+            int newcol = col + d[1];
+            if (isValid(newrow, newcol) && isOpen(newrow, newcol)) {
+                unionUF.union(siteIndex, xyTo1D(newrow, newcol));
+            }
+        }
     }
 
     public boolean isOpen(int row, int col) {
@@ -48,7 +57,8 @@ public class Percolation {
 
     public boolean isFull(int row, int col) {
         // TODO: Fill in this method.
-        return false;
+        int siteIndex = xyTo1D(row, col);
+        return unionUF.connected(siteIndex, top);
     }
 
     public int numberOfOpenSites() {
@@ -58,7 +68,7 @@ public class Percolation {
 
     public boolean percolates() {
         // TODO: Fill in this method.
-        return false;
+        return unionUF.connected(top, bottom);
     }
 
     // TODO: Add any useful helper methods (we highly recommend this!).
