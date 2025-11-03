@@ -38,6 +38,7 @@ public class InteractivePercolationVisualizer {
                 // open site (i, j) provided it's in bounds
                 if (i >= 0 && i < N && j >= 0 && j < N) {
                     if (i != lastClickedI || j != lastClickedJ) {
+                        //StdOut.println("{" + i + ", " + j + "}");
                         StdOut.println(i + " " + j);
                         perc.open(i, j);
                         lastClickedI = i;
