@@ -5,6 +5,7 @@ public class Percolation {
     int boardSize;
     boolean[][] universe;
     WeightedQuickUnionUF unionUF;
+    int numberOfOpenSite = 0;
 
     public Percolation(int N) {
         // TODO: Fill in this constructor.
@@ -15,16 +16,18 @@ public class Percolation {
                 universe[r][c] = false;
             }
         }
-        unionUF = new WeightedQuickUnionUF(boardSize);
+        unionUF = new WeightedQuickUnionUF(boardSize*boardSize);
     }
 
     public void open(int row, int col) {
         // TODO: Fill in this method.
+        universe[row][col] = true;
+        numberOfOpenSite++;
     }
 
     public boolean isOpen(int row, int col) {
         // TODO: Fill in this method.
-        return false;
+        return universe[row][col];
     }
 
     public boolean isFull(int row, int col) {
@@ -34,8 +37,7 @@ public class Percolation {
 
     public int numberOfOpenSites() {
         // TODO: Fill in this method.
-
-        return 0;
+        return numberOfOpenSite;
     }
 
     public boolean percolates() {
