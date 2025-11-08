@@ -55,4 +55,18 @@ public class TimeSeriesTest {
         assertThat(totalPopulation.years()).isEmpty();
         assertThat(totalPopulation.data()).isEmpty();
     }
-} 
+
+    @Test
+    public void testStartEndYear() {
+        TimeSeries catPopulation = new TimeSeries();
+        catPopulation.put(1991, 0.0);
+        catPopulation.put(1992, 100.0);
+        catPopulation.put(1994, 200.0);
+
+        TimeSeries cat92to94 = new TimeSeries(catPopulation, 1992, 19994);
+        List<Integer> expectedYears = new ArrayList<> (Arrays.asList(1992, 1994));
+
+        assertThat(cat92to94.years()).isEqualTo(expectedYears);
+
+    }
+}

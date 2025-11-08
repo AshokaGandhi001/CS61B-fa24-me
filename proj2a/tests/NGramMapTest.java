@@ -88,6 +88,8 @@ public class NGramMapTest {
         TimeSeries fishPlusDogWeight = ngm.summedWeightHistory(fishAndDog, 1865, 1866);
 
         double expectedFishPlusDogWeight1865 = (136497.0 + 75819.0) / 2563919231.0;
+        System.out.println("fishPlusDogWeight.get(1865) = " + fishPlusDogWeight.get(1865));
+
         assertThat(fishPlusDogWeight.get(1865)).isWithin(1E-10).of(expectedFishPlusDogWeight1865);
     }
 

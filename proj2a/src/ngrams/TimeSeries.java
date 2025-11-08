@@ -33,9 +33,14 @@ public class TimeSeries extends TreeMap<Integer, Double> {
     public TimeSeries(TimeSeries ts, int startYear, int endYear) {
         super();
         // TODO: Fill in this constructor.
-        this.putAll(subMap(startYear, true, endYear, true));
+        this.putAll(ts.subMap(startYear, true, endYear, true));
     }
-
+    /**
+     * Creates a copy of TS
+     */
+    public TimeSeries(TimeSeries ts) {
+        super(ts);
+    }
     /**
      *  Returns all years for this time series in ascending order.
      */
@@ -64,43 +69,14 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      */
     public TimeSeries plus(TimeSeries ts) {
         // TODO: Fill in this method.
-        List<Integer> year1 = years();
-        List<Integer> year2 = ts.years();
-        List<Double> value1 = data();
-        List<Double> value2 = ts.data();
-
-        int i = 0;
-        int j = 0;
-
-        TimeSeries result = new TimeSeries();
-        if (year1.isEmpty() && year2.isEmpty()) {
-            return result;
-        }
-        int limit = Math.max(year1.size(), year2.size());
-        while (i < year1.size() && j < year2.size()) {
-            if (year1.get(i) < year2.get(j)) {
-                result.put(year1.get(i), value1.get(i));
-                i++;
-            } else if (Objects.equals(year1.get(i), year2.get(j))) {
-                result.put(year1.get(i), value1.get(i) + value2.get(j));
-                i++;
-                j++;
+        TimeSeries result = new TimeSeries(this);
+        for (Integer year : ts.keySet()) {
+            if (this.containsKey(year)) {
+                result.put(year, this.get(year) + ts.get(year));
             } else {
-                result.put(year2.get(j), value2.get(j));
-                j++;
+                result.put(year, ts.get(year));
             }
         }
-
-        while (i < year1.size()) {
-            result.put(year1.get(i), value1.get(i));
-            i++;
-        }
-
-        while ((j < year2.size())) {
-            result.put(year2.get(j), value2.get(j));
-            j++;
-        }
-
         return result;
     }
 
