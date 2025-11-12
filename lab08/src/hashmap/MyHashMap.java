@@ -1,6 +1,8 @@
 package hashmap;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  *  A hash table-backed Map implementation.
@@ -40,7 +42,9 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * @param initialCapacity initial size of backing array
      * @param loadFactor maximum load factor
      */
-    public MyHashMap(int initialCapacity, double loadFactor) { }
+    public MyHashMap(int initialCapacity, double loadFactor) {
+        
+    }
 
     /**
      * Returns a data structure to be a hash table bucket
@@ -69,5 +73,46 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
 
     // TODO: Implement the methods of the Map61B Interface below
     // Your code won't compile until you do so!
+
+    @Override
+    public void put(K key, V value) {
+
+    }
+
+    @Override
+    public V get(K key) {
+        return null;
+    }
+
+    @Override
+    public boolean containsKey(K key) {
+        return false;
+    }
+
+    @Override
+    public int size() {
+        return 0;
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
+    public Set<K> keySet() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public V remove(K key) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Iterator<K> iterator() {
+        throw new UnsupportedOperationException();
+    }
+
 
 }
