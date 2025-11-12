@@ -2,7 +2,9 @@ package hashmap;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Set;
+import java.lang.Math;
 
 /**
  *  A hash table-backed Map implementation.
@@ -29,11 +31,18 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     /* Instance Variables */
     private Collection<Node>[] buckets;
     // You should probably define some more!
+    int capacity;
+    double loadFactor;
+    int size;
 
     /** Constructors */
-    public MyHashMap() { }
+    public MyHashMap() {
+        this(16, 0.75);
+    }
 
-    public MyHashMap(int initialCapacity) { }
+    public MyHashMap(int initialCapacity) {
+        this(initialCapacity, 0.75);
+    }
 
     /**
      * MyHashMap constructor that creates a backing array of initialCapacity.
@@ -43,7 +52,13 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * @param loadFactor maximum load factor
      */
     public MyHashMap(int initialCapacity, double loadFactor) {
-        
+        capacity = initialCapacity;
+        size = 0;
+        this.loadFactor = loadFactor;
+        buckets = new Collection[capacity];
+        for (int i = 0; i < capacity; i++) {
+            buckets[i] = createBucket();
+        }
     }
 
     /**
@@ -68,35 +83,77 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     protected Collection<Node> createBucket() {
         // TODO: Fill in this method.
-        return null;
+        return new LinkedList<>();
     }
-
     // TODO: Implement the methods of the Map61B Interface below
     // Your code won't compile until you do so!
 
     @Override
     public void put(K key, V value) {
+        //replace the key's mapping if key is already in map.
+        if (containsKey(key)) {
+            for (Node node : buckets[keyIndex(key)]) {
+                if (key.equals(node.key)) {
+                    node.value = value;
+                }
+            }
+        } else {
+            size++;
+            //adding a node with key-value pair to hash table
+            buckets[keyIndex(key)].add(new Node(key, value));
+            //resize if size / capacity exceed load Factor
+            if ((double) size / capacity > loadFactor) {
+                capacity = capacity * 2;
+                Collection<Node>[] oldBuckets = buckets;
+                buckets = new Collection[capacity];
+                for (int i = 0; i < capacity; i++) {
+                    buckets[i] = createBucket();
+                }
+                for (Collection<Node> Nodes: oldBuckets) {
+                    for (Node node : Nodes) {
+                        buckets[keyIndex(node.key)].add(new Node(node.key, node.value));
+                    }
+                }
+            }
+        }
 
     }
 
     @Override
     public V get(K key) {
+        for (Node node : buckets[keyIndex(key)]) {
+            if (node.key.equals(key)) {
+                return node.value;
+            }
+        }
         return null;
     }
 
     @Override
     public boolean containsKey(K key) {
+        int keyIndex = Math.floorMod(key.hashCode(), capacity);
+
+        for ( Node node : buckets[keyIndex]) {
+            if (key.equals(node.key)) {
+                return true;
+            }
+        }
+
         return false;
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
     public void clear() {
-
+        size = 0;
+        buckets = new Collection[capacity];
+        for (int i = 0; i < capacity; i++) {
+            buckets[i] = createBucket();
+        }
     }
 
     @Override
@@ -114,5 +171,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         throw new UnsupportedOperationException();
     }
 
-
+    public int keyIndex(K key) {
+        return Math.floorMod(key.hashCode(), capacity);
+    }
 }
